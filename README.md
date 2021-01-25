@@ -50,9 +50,12 @@ jobs:
 |`mem`|✗|the memory size of vm, default value is `2048` MB|
 
 
-The source code and directory are all synchronized into the VM.
+All the `GITHUB_*` environment variables are passed into the VM.
 
-All the `GITHUB_*` as well as `CI=true` environment variables are passed into the VM.
+The host machine folder `${GITHUB_WORKSPACE}` has been synchronized into the VM folder `~/${GITHUB_REPOSITORY}`.
+
+The working dir of VM is `~/${GITHUB_REPOSITORY}`
+
 
 # Under the hood
 
