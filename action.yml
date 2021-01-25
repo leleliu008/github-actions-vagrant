@@ -18,26 +18,26 @@ branding:
 runs:
   using: 'composite'
   steps:
-  - run: vagrant init ${{inputs.box}}
-    shell: bash
+  - run: |
+      WORK_DIR=$(mktemp -d)
+      cd "$WORK_DIR"
 
-  - name: override Vagrantfile
-    run: |
-      SHELL_SCRIPT_FILE=$(mktemp)
-      chmod a+x "$SHELL_SCRIPT_FILE"
+      echo 'set -e' > shell.sh
+      echo "cd /home/vagrant/${GITHUB_REPOSITORY}" >> shell.sh
+      cat >> shell.sh <<'EOF'
+      ${{inputs.run}}
+      EOF
 
-      echo 'set -e' > "$SHELL_SCRIPT_FILE"
-      echo "cd /home/vagrant/${GITHUB_REPOSITORY}" >> "$SHELL_SCRIPT_FILE"
-      echo '${{inputs.run}}' >> "$SHELL_SCRIPT_FILE"
-
+      chmod a+x shell.sh
+      
       cat > Vagrantfile <<EOF
         Vagrant.configure("2") do |config|
           config.vm.box = "${{inputs.box}}"
           config.vm.provider "virtualbox" do |vb|
             vb.memory = "${{inputs.mem}}"
           end
-          config.vm.synced_folder ".", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
-          config.vm.provision "shell", path: "$SHELL_SCRIPT_FILE"
+          config.vm.synced_folder "${GITHUB_WORKSPACE}", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
+          config.vm.provision "shell", path: shell.sh
         end
       EOF
 
@@ -46,8 +46,9 @@ runs:
         $@
       }
 
-      run cat "$SHELL_SCRIPT_FILE"
       run cat Vagrantfile
+      run cat shell.sh
+      run vagrant box add ${{inputs.box}}
       run vagrant up
       run vagrant provision
     shell: bash 
