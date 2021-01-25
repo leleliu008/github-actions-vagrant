@@ -30,9 +30,9 @@ runs:
 
       run vagrant init ${{inputs.box}}
 
-      echo 'set -e\n' > shell.sh
-      export -p | grep 'GITHUB_' > shell.sh
-      echo "\ncd /home/vagrant/${GITHUB_REPOSITORY}\n" >> shell.sh
+      echo 'set -e' > shell.sh
+      export -p | grep 'GITHUB_' >> shell.sh
+      echo "cd /home/vagrant/${GITHUB_REPOSITORY}" >> shell.sh
       cat >> shell.sh <<'EOF'
       run() {
         printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
