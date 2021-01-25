@@ -1,0 +1,39 @@
+name: 'VirtualBox'
+description: 'Run CI in VirtualBox for GitHub Actions'
+inputs:
+  box:
+    description: 'the vagrant box name'
+    required: true
+  run:
+    description: 'the commands to run in vm'
+    required: true
+  mem:
+    description: 'the memory size of the vm'
+    required: false
+    default: '2048'
+branding:
+  icon: 'activity'  
+  color: 'green'
+
+runs:
+  using: 'composite'
+  steps:
+  - run: vagrant init ${{inputs.box}}
+  - name: override Vagrantfile
+    run: |
+      cat > Vagrantfile <<EOF
+        Vagrant.configure("2") do |config|
+          config.vm.box = "${{inputs.box}}"
+          config.vm.provider "virtualbox" do |vb|
+            vb.memory = "${{inputs.mem}}"
+          end
+          config.vm.synced_folder ".", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
+          config.vm.provision "shell", inline: <<-SHELL
+            set -e
+            cd "/home/vagrant/${GITHUB_REPOSITORY}"
+            ${{inputs.run}}
+          SHELL
+      EOF
+      cat Vagrantfile
+  - run: vagrant up
+  - run: vagrant provision
