@@ -37,7 +37,7 @@ runs:
             vb.memory = "${{inputs.mem}}"
           end
           config.vm.synced_folder "${GITHUB_WORKSPACE}", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
-          config.vm.provision "shell", path: shell.sh
+          config.vm.provision "shell", path: "shell.sh"
         end
       EOF
 
