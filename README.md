@@ -27,11 +27,6 @@ jobs:
                 sudo ln -s /usr/local/lib/libiconv.so.* /usr/local/lib/libiconv.so
             fi
               
-            run() {
-                printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
-                $@
-            }
-              
             run sudo pkg_add automake-1.16.2
             
             run ./autogen.sh
@@ -56,6 +51,13 @@ The host machine folder `${GITHUB_WORKSPACE}` has been synchronized into the VM 
 
 The working dir of VM is `~/${GITHUB_REPOSITORY}`
 
+you can use `run` command in `run` option, the defination of `run` command as follow:
+```
+run() {
+    printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
+    $@
+}
+```
 
 # Under the hood
 
