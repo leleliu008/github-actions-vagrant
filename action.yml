@@ -19,8 +19,16 @@ runs:
   using: 'composite'
   steps:
   - run: |
+      run() {
+        printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
+        $@
+      }
+
       WORK_DIR=$(mktemp -d)
-      cd "$WORK_DIR"
+      
+      run cd "$WORK_DIR"
+
+      run vagrant init ${{inputs.box}}
 
       echo 'set -e' > shell.sh
       echo "cd /home/vagrant/${GITHUB_REPOSITORY}" >> shell.sh
@@ -40,15 +48,10 @@ runs:
           config.vm.provision "shell", path: "shell.sh"
         end
       EOF
-
-      run() {
-        printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
-        $@
-      }
-
+      
       run cat Vagrantfile
       run cat shell.sh
-      run vagrant box add ${{inputs.box}}
+      
       run vagrant up
       run vagrant provision
     shell: bash 
