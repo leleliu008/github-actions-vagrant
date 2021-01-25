@@ -38,6 +38,7 @@ runs:
           end
           config.vm.synced_folder ".", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
           config.vm.provision "shell", path: "$SHELL_SCRIPT_FILE"
+        end
       EOF
 
       run() {
