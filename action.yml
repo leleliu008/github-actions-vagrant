@@ -36,8 +36,6 @@ runs:
       ${{inputs.run}}
       EOF
 
-      chmod a+x shell.sh
-      
       cat > Vagrantfile <<EOF
         Vagrant.configure("2") do |config|
           config.vm.box = "${{inputs.box}}"
@@ -52,6 +50,5 @@ runs:
       run cat Vagrantfile
       run cat shell.sh
       
-      run vagrant up
-      run vagrant provision
+      run vagrant up --provision
     shell: bash 
