@@ -19,6 +19,8 @@ runs:
   using: 'composite'
   steps:
   - run: vagrant init ${{inputs.box}}
+    shell: bash
+
   - name: override Vagrantfile
     run: |
       cat > Vagrantfile <<EOF
@@ -34,6 +36,13 @@ runs:
             ${{inputs.run}}
           SHELL
       EOF
-      cat Vagrantfile
-  - run: vagrant up
-  - run: vagrant provision
+    shell: bash
+  
+  - run:   cat Vagrantfile
+    shell: bash
+
+  - run:   vagrant up
+    shell: bash
+
+  - run:   vagrant provision
+    shell: bash
