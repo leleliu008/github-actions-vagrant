@@ -1,6 +1,6 @@
 # Run GitHub CI in VirtualBox via Vagrant
 
-Use this action to run your CI in FreeBSD, OpenBSD, NetBSD, etc.
+Use this action to run your CI in `FreeBSD`, `OpenBSD`, `NetBSD`, etc.
 
 # Sample workflow
 
@@ -43,7 +43,7 @@ jobs:
 ```
 
 |option|required|overview|
-|-|-|
+|-|-|-|
 |`runs-on`|✔︎|must be `macos-*`|
 |`run`|✔︎|the commands you want to run in vm|
 |`box`|✔︎|the vagrant box name, the most commonly used are `generic/freebsd11` `generic/freebsd12` `generic/netbsd8` `generic/netbsd9` `generic/openbsd6`, you can find your appropriate box from [https://app.vagrantup.com/boxes](https://app.vagrantup.com/boxes)|
@@ -56,11 +56,11 @@ All the `GITHUB_*` as well as `CI=true` environment variables are passed into th
 
 # Under the hood
 
-GitHub Actions only supports Ubuntu, Windows and macOS out of the box. 
+`GitHub Actions` only supports `Ubuntu`, `Windows` and `macOS` out of the box. 
 
-However, the macOS support virtualization. It has VirtualBox and Vagrant installed.
+However, the `macOS` support virtualization. It has `VirtualBox` and `Vagrant` installed.
 
-So, we can run the FreeBSD, NetBSD, OpenBSD OS in VirbualBox on macOS.
+So, we can run the `FreeBSD`, `NetBSD`, `OpenBSD` OS in `VirbualBox` on `macOS`.
 
 
 
