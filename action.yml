@@ -11,6 +11,10 @@ inputs:
     description: 'the memory size of the vm'
     required: false
     default: '2048'
+  sync-type:
+    description: 'the type of synced_folder'
+    required: false
+    default: 'rsync'
 branding:
   icon: 'activity'  
   color: 'green'
@@ -21,11 +25,11 @@ runs:
   - run: |
       run() {
         printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
-        $@
+        eval "$*"
       }
 
       WORK_DIR=$(mktemp -d)
-      
+
       run cd "$WORK_DIR"
 
       run vagrant init ${{inputs.box}}
@@ -36,7 +40,7 @@ runs:
       cat >> shell.sh <<'EOF'
       run() {
         printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
-        $@
+        eval "$*"
       }
       
       ${{inputs.run}}
@@ -48,7 +52,7 @@ runs:
           config.vm.provider "virtualbox" do |vb|
             vb.memory = "${{inputs.mem}}"
           end
-          config.vm.synced_folder "${GITHUB_WORKSPACE}", "/home/vagrant/${GITHUB_REPOSITORY}", type: "rsync"
+          config.vm.synced_folder "${GITHUB_WORKSPACE}", "/home/vagrant/${GITHUB_REPOSITORY}", type: "${{inputs.sync-type}}"
           config.vm.provision "shell", path: "shell.sh"
         end
       EOF
