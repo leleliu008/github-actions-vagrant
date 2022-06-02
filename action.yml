@@ -11,6 +11,10 @@ inputs:
     description: 'the memory size of the vm'
     required: false
     default: '2048'
+  log:
+    description: 'the log level of vagrant'
+    required: false
+    default: 'info'
   sync-type:
     description: 'the type of synced_folder'
     required: false
@@ -23,14 +27,37 @@ runs:
   using: 'composite'
   steps:
   - run: |
-      run() {
-        printf "\033[0;35m==>\033[0m \033[0;32m%b\n\033[0m" "$*"
-        eval "$*"
+      COLOR_RED='\033[0;31m'          # Red
+      COLOR_GREEN='\033[0;32m'        # Green
+      COLOR_YELLOW='\033[0;33m'       # Yellow
+      COLOR_BLUE='\033[0;94m'         # Blue
+      COLOR_PURPLE='\033[0;35m'       # Purple
+      COLOR_OFF='\033[0m'             # Reset
+
+      die() {
+          printf '%b\n' "${COLOR_RED}💔  $*${COLOR_OFF}" >&2
+          exit 1
       }
+
+      run() {
+          printf '%b\n' "${COLOR_PURPLE}==>${COLOR_OFF} ${COLOR_GREEN}$*${COLOR_OFF}"
+          eval "$*"
+      }
+
+      # https://www.vagrantup.com/docs/other/debugging
+      case ${{inputs.log}} in
+        info|debug|warn|error)
+            export VAGRANT_LOG=${{inputs.log}}
+            ;;
+        '') die "log attribute must not be empty." ;;
+        *)  die "unrecognized log level, reference: https://www.vagrantup.com/docs/other/debugging"
+      esac
 
       WORK_DIR=$(mktemp -d)
 
       run cd "$WORK_DIR"
+
+      run vagrant --version
 
       run vagrant init ${{inputs.box}}
 
