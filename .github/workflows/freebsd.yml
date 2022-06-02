@@ -19,7 +19,7 @@ jobs:
         version: [13]
 
     steps:
-      - uses: leleliu008/github-actions-vagrant@v1
+      - uses: leleliu008/github-actions-vagrant@v2
         with:
           mem: 2048
           box: generic/freebsd${{ matrix.version }}

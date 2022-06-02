@@ -43,6 +43,7 @@ jobs:
 |`run`|✔︎|the commands you want to run in vm|
 |`box`|✔︎|the vagrant box name, the most commonly used are `generic/freebsd11` `generic/freebsd12` `generic/netbsd8` `generic/netbsd9` `generic/openbsd6`, you can find your appropriate box from [https://app.vagrantup.com/boxes](https://app.vagrantup.com/boxes)|
 |`mem`|✗|the memory size of vm, default value is `2048` MB|
+|`log`|✗|the log level of vagrant, acceptable values: `info` `debug` `warn` `error`, default value is `info`|
 
 
 All the `GITHUB_*` environment variables are passed into the VM.
