@@ -11,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: macos-10.15
+    runs-on: macos-12
 
     steps:
       - uses: leleliu008/github-actions-vagrant@v2
@@ -21,3 +21,5 @@ jobs:
           log: debug
           run: |
             run ls
+
+      - run: printf '%s\n' "$VAGRANT_CWD"
