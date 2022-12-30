@@ -53,9 +53,12 @@ runs:
         *)  die "unrecognized log level, reference: https://www.vagrantup.com/docs/other/debugging"
       esac
 
-      WORK_DIR=$(mktemp -d)
+      # https://developer.hashicorp.com/vagrant/docs/other/environmental-variables#vagrant_cwd
+      VAGRANT_CWD=$(mktemp -d)
 
-      run cd "$WORK_DIR"
+      run cd "$VAGRANT_CWD"
+
+      printf '%s\n' "VAGRANT_CWD=$VAGRANT_CWD" >> $GITHUB_ENV
 
       run vagrant --version
 
