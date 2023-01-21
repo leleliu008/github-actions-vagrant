@@ -23,7 +23,7 @@ jobs:
             run id
             run pwd
             run export -p
-            touch /root/aaa
+            touch aaa
 
       - run: printf '%s\n' "$VAGRANT_CWD"
-      - run: scp -i $VAGRANT_CWD/.vagrant/machines/default/virtualbox/private_key -o StrictHostKeyChecking=no -r -P 2222 vagrant@127.0.0.1:/root/aaa .
+      - run: scp -i $VAGRANT_CWD/.vagrant/machines/default/virtualbox/private_key -o StrictHostKeyChecking=no -r -P 2222 vagrant@127.0.0.1:/home/vagrant/leleliu008/github-actions-vagrant/aaa .
