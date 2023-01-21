@@ -29,5 +29,7 @@ jobs:
             run pwd
             run export -p
             run pkg install -y git
+            touch /root/aaa
 
       - run: printf '%s\n' "$VAGRANT_CWD"
+      - run: scp -i $VAGRANT_CWD/.vagrant/machines/default/virtualbox/private_key -o StrictHostKeyChecking=no -r -P 2222 vagrant@127.0.0.1:/root/aaa .
