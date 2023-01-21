@@ -20,6 +20,8 @@ jobs:
           box: generic/openbsd6
           log: debug
           run: |
-            run ls
+            run id
+            run pwd
+            run export -p
 
       - run: printf '%s\n' "$VAGRANT_CWD"

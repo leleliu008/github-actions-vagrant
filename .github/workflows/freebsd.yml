@@ -25,6 +25,9 @@ jobs:
           box: generic/freebsd${{ matrix.version }}
           log: debug
           run: |
+            run id
+            run pwd
+            run export -p
             run pkg install -y git
 
       - run: printf '%s\n' "$VAGRANT_CWD"

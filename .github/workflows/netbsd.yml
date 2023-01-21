@@ -26,5 +26,7 @@ jobs:
           log: debug
           run: |
             run id
+            run pwd
+            run export -p
 
       - run: printf '%s\n' "$VAGRANT_CWD"
