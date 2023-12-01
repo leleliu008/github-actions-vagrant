@@ -4,6 +4,9 @@ inputs:
   box:
     description: 'the vagrant box name'
     required: true
+  box-version:
+    required: false
+    default: '>= 0'
   run:
     description: 'the commands to run in vm'
     required: true
@@ -79,6 +82,7 @@ runs:
       cat > Vagrantfile <<EOF
         Vagrant.configure("2") do |config|
           config.vm.box = "${{inputs.box}}"
+          config.vm.box_version = "${{inputs.box-version}}"
           config.vm.provider "virtualbox" do |vb|
             vb.memory = "${{inputs.mem}}"
           end
