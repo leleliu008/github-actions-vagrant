@@ -14,6 +14,10 @@ inputs:
     description: 'the memory size of the vm'
     required: false
     default: '2048'
+  ncpu:
+    description: 'the cpu core counts of the vm'
+    required: false
+    default: '2'
   log:
     description: 'the log level of vagrant'
     required: false
@@ -85,6 +89,7 @@ runs:
           config.vm.box_version = "${{inputs.box-version}}"
           config.vm.provider "virtualbox" do |vb|
             vb.memory = "${{inputs.mem}}"
+            vb.cpus   = "${{inputs.ncpu}}"
           end
           config.vm.synced_folder "${GITHUB_WORKSPACE}", "/home/vagrant/${GITHUB_REPOSITORY}", type: "${{inputs.sync-type}}"
           config.vm.provision "shell", path: "shell.sh"
